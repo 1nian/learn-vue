@@ -1,0 +1,14 @@
+html[data-theme='dark'] {
+    --text-color: #e5eaf3;
+    --bg-color:#141414;
+    --active-bg-color:#409eff1a;
+    --active-text-color:#409eff;
+}
+
+
+:root{
+    --text-color:#303133;
+    --bg-color:#ffffff;
+    --active-bg-color:#409eff1a;
+    --active-text-color: #409eff;
+}

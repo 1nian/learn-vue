@@ -1,0 +1,26 @@
+body{
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: Inter, 'Helvetica Neue', Helvetica, 'PingFang SC',
+  'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+  box-sizing: border-box;
+}
+a {
+  display: block;
+  text-align: center;
+  border-radius: 4px;
+  padding: 5px 0;
+  margin-bottom: 10px ;
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+a:hover {
+  color: var(--active-text-color); 
+  text-decoration: none;
+}
+
+.link-exact-active{
+  background-color: var(--active-bg-color);
+  color: var(--active-text-color);
+}

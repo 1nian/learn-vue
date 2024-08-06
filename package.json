@@ -1,0 +1,46 @@
+{
+    "name": "vue-project",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vue-tsc -b && vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@types/node": "^22.0.0",
+        "@types/vue-router": "^2.0.0",
+        "@univerjs-pro/facade": "^0.2.5",
+        "@univerjs-pro/sheets-exchange-client": "^0.2.5",
+        "@univerjs/core": "^0.2.5",
+        "@univerjs/design": "^0.2.5",
+        "@univerjs/docs": "^0.2.5",
+        "@univerjs/docs-ui": "^0.2.5",
+        "@univerjs/engine-formula": "^0.2.5",
+        "@univerjs/engine-numfmt": "^0.2.5",
+        "@univerjs/engine-render": "^0.2.5",
+        "@univerjs/rpc": "^0.2.5",
+        "@univerjs/sheets": "^0.2.5",
+        "@univerjs/sheets-formula": "^0.2.5",
+        "@univerjs/sheets-ui": "^0.2.5",
+        "@univerjs/ui": "^0.2.5",
+        "@vueuse/core": "^10.11.0",
+        "echarts": "^5.5.1",
+        "element-plus": "^2.7.7",
+        "exceljs": "^4.4.0",
+        "vue": "^3.4.31",
+        "vue-draggable": "^2.0.6",
+        "vue-router": "^4.4.0",
+        "xlsx": "^0.18.5"
+    },
+    "devDependencies": {
+        "@univerjs/vite-plugin": "^0.5.0",
+        "@vitejs/plugin-vue": "^5.0.5",
+        "typescript": "^5.2.2",
+        "unplugin-auto-import": "^0.18.2",
+        "unplugin-vue-components": "^0.27.3",
+        "vite": "^5.3.4",
+        "vue-tsc": "^2.0.24"
+    }
+}
