@@ -40,6 +40,8 @@ const onDrop = async (event: DragEvent) => {
 
 const exprotExcel = async () => {
     const jsonData = univerRef.value?.getData();
+    console.log(jsonData);
+    return;
     const sheetsID = jsonData.sheetOrder[0];
     const sheetData = jsonData.sheets[sheetsID];
     await exportToExcel(

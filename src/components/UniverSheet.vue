@@ -16,6 +16,7 @@ import {
     UniverInstanceType,
     IWorkbookData,
     Workbook,
+    ICommandInfo,
 } from "@univerjs/core";
 import { defaultTheme } from "@univerjs/design";
 
@@ -40,6 +41,13 @@ import SheetsUIZhCN from "@univerjs/sheets-ui/locale/zh-CN";
 import { FUniver } from "@univerjs-pro/facade";
 import { onBeforeUnmount, onMounted, ref, toRaw } from "vue";
 
+import {
+    setLocalStorage,
+    getLocalStorage,
+    deepEntries,
+    removeLocalStorage,
+} from "@/untils/index";
+import { ElMessage } from "element-plus";
 const { data } = defineProps({
     // workbook data
     data: {
@@ -103,14 +111,23 @@ const init = (data = {}) => {
 
     const univerAPI = FUniver.newAPI(univer);
     univerAPI.getSheetHooks().onCellDrop((cell) => {
-        const data = JSON.parse(
-            localStorage.getItem("cell-data") || ""
-        )?.cellData;
-        const activeSheet = univerAPI?.getActiveWorkbook()?.getActiveSheet();
-        const range = activeSheet?.getRange(
-            cell?.location.row as number,
-            cell?.location.col as number
+        const data = getLocalStorage("cell-data");
+
+        let currentCellData = getLocalStorage("current-cell-data") ?? [];
+
+        let index = currentCellData.findIndex(
+            (item: any) => item.value === data.value
         );
+        if (index > -1) {
+            ElMessage.error(`${data.label}已存在,删除后在添加`);
+            return;
+        }
+
+        const activeSheet = univerAPI?.getActiveWorkbook()?.getActiveSheet();
+        let row = cell?.location.row as number;
+        let col = cell?.location.col as number;
+        const range = activeSheet?.getRange(row, col);
+
         if (!range) {
             console.error("Range not found");
             return;
@@ -119,6 +136,41 @@ const init = (data = {}) => {
             v: data.label,
             custom: { key: data.value },
         });
+
+        currentCellData.push({
+            ...data,
+            row,
+            col,
+        });
+        setLocalStorage("current-cell-data", currentCellData);
+    });
+
+    univerAPI.onBeforeCommandExecute((command: ICommandInfo) => {
+        const { id, type, params } = command;
+
+        if (
+            id == "sheet.mutation.set-range-values" &&
+            type == 2 &&
+            params?.trigger == "sheet.command.clear-selection-all"
+        ) {
+            let [row, col] = deepEntries(params?.cellValue);
+
+            const currentCellData = getLocalStorage("current-cell-data");
+
+            if (currentCellData.length) {
+                let index = currentCellData.findIndex(
+                    (item) => item.row == row[0] && item.col == col[0]
+                );
+
+                if (index > -1) {
+                    currentCellData.splice(index, 1);
+
+                    setLocalStorage("current-cell-data", currentCellData);
+                }
+            }
+
+            // throw new Error("禁止编辑");
+        }
     });
 };
 
@@ -129,6 +181,8 @@ const destroyUniver = () => {
     toRaw(univerRef.value)?.dispose();
     univerRef.value = null;
     workbook.value = null;
+    removeLocalStorage("current-cell-data");
+    removeLocalStorage("cell-data");
 };
 
 /**

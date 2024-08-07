@@ -6,6 +6,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { setLocalStorage } from "@/untils/index";
 
 export default defineComponent({
     name: "Draggable",
@@ -16,12 +17,10 @@ export default defineComponent({
     methods: {
         onDragStart(event: DragEvent) {
             if (event.dataTransfer) {
-                localStorage.setItem(
-                    "cell-data",
-                    JSON.stringify({
-                        cellData: { label: this.label, value: this.value },
-                    })
-                );
+                setLocalStorage("cell-data", {
+                    label: this.label,
+                    value: this.value,
+                });
             }
         },
     },
