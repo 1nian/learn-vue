@@ -2,7 +2,7 @@ import { createWebHashHistory, createRouter, RouteRecordRaw } from "vue-router";
 import Report from "../views/report/Index.vue";
 import Excel from "../views/excel/Index.vue";
 
-export const routes: Array<RouteRecordRaw> = [
+export const defaultRoute: Array<RouteRecordRaw> = [
     {
         path: "/",
         name: "report",
@@ -25,7 +25,7 @@ const router = createRouter({
     linkActiveClass: "",
     linkExactActiveClass: "link-exact-active",
     history: createWebHashHistory(),
-    routes,
+    routes: defaultRoute,
 });
 
 export default router;
